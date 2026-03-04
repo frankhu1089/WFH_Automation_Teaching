@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  macOS launchd plist: auto-start Teaching Automation server on login.
+
+  Install:
+    cp scripts/com.frankhu.teaching-automation.plist ~/Library/LaunchAgents/
+    launchctl load ~/Library/LaunchAgents/com.frankhu.teaching-automation.plist
+
+  Logs:
+    tail -f /tmp/teaching-automation.log
+    tail -f /tmp/teaching-automation-err.log
+
+  Stop:
+    launchctl unload ~/Library/LaunchAgents/com.frankhu.teaching-automation.plist
+-->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>com.frankhu.teaching-automation</string>
+
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/local/bin/node</string>
+    <string>/Users/frankhu/Desktop/claude/workschedule/teachingautomation/node_modules/.bin/tsx</string>
+    <string>/Users/frankhu/Desktop/claude/workschedule/teachingautomation/server.ts</string>
+  </array>
+
+  <key>WorkingDirectory</key>
+  <string>/Users/frankhu/Desktop/claude/workschedule/teachingautomation</string>
+
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>NODE_ENV</key>
+    <string>production</string>
+    <key>TZ</key>
+    <string>Asia/Taipei</string>
+    <key>PATH</key>
+    <string>/usr/local/bin:/usr/bin:/bin:/opt/homebrew/bin</string>
+  </dict>
+
+  <key>RunAtLoad</key>
+  <true/>
+
+  <key>KeepAlive</key>
+  <true/>
+
+  <key>StandardOutPath</key>
+  <string>/tmp/teaching-automation.log</string>
+
+  <key>StandardErrorPath</key>
+  <string>/tmp/teaching-automation-err.log</string>
+</dict>
+</plist>
